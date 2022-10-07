@@ -10,19 +10,81 @@ $(document).on("click", "#loginBtn", login);
 $(document).on("click", "#logoutBtn", logout);
 $(document).on("change", "#sido", getGugun);
 $(document).on("change", "#gugun", getDong);
-$(document).on("change", "#dong", getHouseDealInfo);
-
-async function getHouseDealInfo() {
-    let sido = $("#sido option:selected").val();
-    let gugun = $("#gugun option:selected").val();
-    let dong = $("#dong option:selected").val();
+$(document).on("change", "#dong", selectDong);
+$(document).on("change", "#year", selectYear);
+$(document).on("change", "#month", selectMonth)
+$(document).on("click", "#houseDealInfoBtn", getHouseDealInfo);
 
 
+let month;
+
+function selectMonth() {
+    month = $("#month option:selected").val();
 }
 
+let year;
+
+function selectYear() {
+    year = $("#year option:selected").val();
+}
+
+let dong;
+
+function selectDong() {
+    dong = $("#dong option:selected").val();
+}
+
+
+async function getHouseDealInfo() {
+    console.log(sido, gugun, dong, year, month);
+    if (sido == undefined || gugun == undefined || dong == undefined || year == undefined || month == undefined) {
+        alert("검색 조건을 모두 선택해 주세요");
+    } else {
+        let data = JSON.stringify({sign: "getHouseDealInfo", sido, gugun, dong, year, month});
+        data = await fetch("main", {method: "POST", body: data});
+        data = await data.text();
+        console.log(data);
+        data = JSON.parse(data);
+        console.log(data);
+        let houseDealInfoListTable = `  <table class="table table-hover">
+								    <thead>
+								      <tr>
+								        <th>no</th>
+								        <th>dong</th>
+								        <th>roadName</th>
+								        <th>apartmentName</th>
+								        <th>floor</th>
+								        <th>area</th>
+								        <th>dealAmount</th>
+								      </tr>
+								    </thead><tbody>`;
+        data.houseDealInfoList.forEach(function (item, index) {
+            console.log(item);
+            item = JSON.parse(item);
+            houseDealInfoListTable += `<tr onclick="alert(${item.lat}+':'+${item.lng})">
+								        <th>${item.no}</th>
+								        <th>${item.dong}</th>
+								        <th>${item.roadName}</th>
+								        <th>${item.apartmentName}</th>
+								        <th>${item.floor}</th>
+								        <th>${item.area}</th>
+								        <th>${item.dealAmount}</th>
+								      </tr>`;
+        });
+
+        houseDealInfoListTable += `</tbody></table>`;
+
+        $("#contentTopDiv").html(houseDealInfoListTable);
+
+    }
+}
+
+
+let gugun;
+
 async function getDong() {
-    let sido = $("#sido option:selected").val();
-    let gugun = $("#gugun option:selected").val();
+    sido = $("#sido option:selected").val();
+    gugun = $("#gugun option:selected").val();
 
     if (sido.length > 2 && gugun.length > 1) {
         let data = JSON.stringify({sign: "getDong", sido, gugun});
@@ -39,9 +101,10 @@ async function getDong() {
 
 }
 
+let sido;
 
 async function getGugun() {
-    let sido = $("#sido option:selected").val();
+    sido = $("#sido option:selected").val();
 
     if (sido.length > 2) {
         let data = JSON.stringify({sign: "getGugun", sido});

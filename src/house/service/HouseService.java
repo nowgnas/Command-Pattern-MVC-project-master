@@ -1,6 +1,7 @@
 package house.service;
 
 import house.dao.HouseDao;
+import house.dto.House;
 
 import java.util.List;
 
@@ -24,4 +25,9 @@ public class HouseService {
     public List<String> getDong(String sido, String gugun) {
         return houseDao.getDong(sido, gugun);
     }
+
+    public List<House> getHouseDealInfo(String sido, String gugun, String dongName, String year, String month) {
+        return houseDao.getHouseDealInfo(sido, gugun, dongName, year, month);
+    }
+
 }
