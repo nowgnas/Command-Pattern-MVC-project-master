@@ -131,23 +131,17 @@ async function logout() {
 
 }
 
-async function login(id) {
-    console.log(id);
-    let data;
-    if (typeof id == "string") { // 로그인 되어있는 경우
-        data = JSON.stringify({sign: "login", id});
-    } else { // 로그인 하는 경우
-        let id = $("#id").val();
-        let pw = $("#pw").val();
-        data = JSON.stringify({sign: "login", id, pw});
-    }
+async function login() {
+    console.log("왜 안들어와")
+    let id = $("#loginId").val();
+    let pw = $("#loginPw").val();
+    console.log("id: " + id);
+    let data = JSON.stringify({sign: "login", id, pw});
 
     data = await fetch("main", {method: "POST", body: data});
-    console.log(data);
     data = await data.text();
-    console.log(data);
     data = JSON.parse(data);
-    console.log(data);
+    console.log(data.state);
 
     if (data.loginId) {
         $.cookie("loginId", data.loginId);

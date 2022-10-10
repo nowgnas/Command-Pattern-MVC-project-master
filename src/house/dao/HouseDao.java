@@ -1,9 +1,9 @@
 package house.dao;
 
 import house.dto.House;
+import util.DBUtil;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -14,12 +14,7 @@ public class HouseDao {
     private static HouseDao instance;
 
     private HouseDao() {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:15000/backpjt", "root", "1234");
-        } catch (Exception e) {
-
-        }
+        con = DBUtil.getInstance().getConnection();
     }
 
     public static HouseDao getInstance() {

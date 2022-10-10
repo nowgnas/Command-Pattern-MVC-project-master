@@ -5,4 +5,5 @@
     <bean class="house.controller.GetGugunCommand" id="getGugun"/>
     <bean class="house.controller.GetDongCommnad" id="getDong"/>
     <bean class="house.controller.GetHouseDealInfoCommand" id="getHouseDealInfo" />
+    <bean class="member.controller.RegisterCommand" id="register" />
 </beans>

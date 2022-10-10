@@ -22,6 +22,7 @@ public class GetDongCommnad implements Command {
     public void service(HttpServletRequest request, HttpServletResponse response, JsonObject json, JsonObject reJson) throws ServletException, IOException {
         String gugun = json.get("gugun").getAsString();
         String sido = json.get("sido").getAsString();
+        System.out.println(gugun);
         List<String> list = houseService.getDong(sido, gugun);
         if (list != null) {
             JsonArray jsonArray = new JsonArray();

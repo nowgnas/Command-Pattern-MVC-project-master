@@ -41,20 +41,14 @@ public class DispatcherServlet extends HttpServlet {
 
         JsonObject json = (JsonObject) JsonParser.parseReader(request.getReader());
         String sign = json.get("sign").getAsString();
-        System.out.println(sign);
+        System.out.println("---------sign: " + sign + "---------");
 
         if (sign != null) {
             // command pattern
-            System.out.println("hello");
             beans.get(sign).service(request, response, json, reJson);
         } else {
             reJson.addProperty("msg", "해킹 모니터링 중");
         }
-
         out.append(reJson.toString());
-
-
     }
-
-
 }

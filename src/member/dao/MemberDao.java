@@ -2,23 +2,18 @@ package member.dao;
 
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import member.dto.Member;
+import util.DBUtil;
 
 public class MemberDao {
     Connection con;
     private static MemberDao instance;
 
     private MemberDao() {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:15000/backpjt", "root", "1234");
-        } catch (Exception e) {
-
-        }
+        con = DBUtil.getInstance().getConnection();
     }
 
     public static MemberDao getInstance() {
